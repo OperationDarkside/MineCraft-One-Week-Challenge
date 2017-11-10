@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-ItemStack::ItemStack(const Material& material, int amount)
-:   m_pMaterial     (&material)
+ItemStack::ItemStack(const Block& block, int amount)
+:   m_pBlock     (&block)
 ,   m_numInStack    (amount)
 { }
 
@@ -11,10 +11,10 @@ int ItemStack::add(int amount)
 {
     m_numInStack += amount;
 
-    if (m_numInStack > m_pMaterial->maxStackSize)
+    if (m_numInStack > m_pBlock->maxStackSize)
     {
-        int leftOver = m_numInStack - m_pMaterial->maxStackSize;
-        m_numInStack = m_pMaterial->maxStackSize;
+        int leftOver = m_numInStack - m_pBlock->maxStackSize;
+        m_numInStack = m_pBlock->maxStackSize;
         return leftOver;
     }
     else
@@ -28,7 +28,7 @@ void ItemStack::remove()
     m_numInStack--;
     if (m_numInStack == 0)
     {
-        m_pMaterial = &Material::NOTHING;
+        m_pBlock = &BlockDB::get()[2]/*Nothing*/;
     }
 }
 
@@ -37,7 +37,7 @@ int ItemStack::getNumInStack() const
     return m_numInStack;
 }
 
-const Material& ItemStack::getMaterial() const
+const Block& ItemStack::getBlocktype() const
 {
-    return *m_pMaterial;
+    return *m_pBlock;
 }

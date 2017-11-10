@@ -21,7 +21,7 @@ class Player : public Entity
         void update(float dt, World& wolrd);
         void collide(World& world, const glm::vec3& vel, float dt);
 
-        void addItem(const Material& material);
+        void addItem(const Block& block);
 
         void draw(RenderMaster& master);
 

@@ -1,22 +1,23 @@
 #ifndef ITEMSTACK_H_INCLUDED
 #define ITEMSTACK_H_INCLUDED
 
-#include "Material.h"
+#include "../World/Block/Block.h"
+#include "../World/Block/BlockDB.h"
 
 class ItemStack
 {
     public:
-        ItemStack(const Material& material, int amount);
+        ItemStack(const Block& block, int amount);
 
         int add(int amount);
         void remove();
 
         int getNumInStack() const;
 
-        const Material& getMaterial() const;
+        const Block& getBlocktype() const;
 
     private:
-        const Material* m_pMaterial  = &Material::NOTHING;
+        const Block*    m_pBlock;
         int             m_numInStack = 0;
 
 };

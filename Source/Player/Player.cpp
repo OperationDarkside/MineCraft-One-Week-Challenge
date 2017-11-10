@@ -27,10 +27,11 @@ Player::Player()
 
     f.loadFromFile("Res/Fonts/rs.ttf");
 
+    Block& no_block = BlockDB::get()[2]/*Nothing*/;
 
     for (int i = 0; i < 5; i++)
     {
-        m_items.emplace_back(Material::NOTHING, 0);
+        m_items.emplace_back(no_block, 0);
     }
 
     for (float i = 0; i < 5; i++)
@@ -48,21 +49,21 @@ Player::Player()
     m_posPrint.setPosition(20.0f, 20.0f * 6.0f + 100.0f);
 }
 
-void Player::addItem(const Material& material)
+void Player::addItem(const Block& block)
 {
-    Material::ID id = material.id;
+    auto id = block.id;
 
     for (unsigned i = 0; i < m_items.size(); i++)
     {
-        if (m_items[i].getMaterial().id == id)
+        if (m_items[i].getBlocktype().id == id)
         {
             /*int leftOver =*/ m_items[i].add(1);
 
             return;
         }
-        else if (m_items[i].getMaterial().id == Material::ID::Nothing)
+        else if (m_items[i].getBlocktype().id == 2/*Nothing*/)
         {
-            m_items[i] = {material, 1};
+            m_items[i] = {block, 1};
             return;
         }
     }
@@ -281,7 +282,7 @@ void Player::draw(RenderMaster& master)
         {
             t.setFillColor(sf::Color::White);
         }
-        t.setString((m_items[i].getMaterial().name) + " " + std::to_string(m_items[i].getNumInStack()) + " ");
+        t.setString((m_items[i].getBlocktype().name) + " " + std::to_string(m_items[i].getNumInStack()) + " ");
         master.drawSFML(t);
     }
     std::ostringstream stream;
